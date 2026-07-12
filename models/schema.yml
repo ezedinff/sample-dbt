@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: stg_cart_events
+    columns:
+      - name: cart_id
+        tests:
+          - not_null
+      - name: event_name
+        tests:
+          - not_null
+      - name: market
+        tests:
+          - not_null
+  - name: int_abandoned_cart
+    columns:
+      - name: cart_id
+        tests:
+          - not_null
+      - name: is_abandoned
+        tests:
+          - not_null
+  - name: mart_abandoned_cart_rate
+    columns:
+      - name: market
+        tests:
+          - not_null
+      - name: abandoned_cart_rate
+        tests:
+          - not_null

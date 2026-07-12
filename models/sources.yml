@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: raw_events_cart
+        description: >
+          Current raw cart-event source contract. This upstream source now exposes
+          event_name for the event classification field; the staging model is
+          intentionally still reading the old event_type field for Lighthouse
+          remediation testing.
+        columns:
+          - name: session_id
+          - name: cart_id
+          - name: user_id
+          - name: event_timestamp
+          - name: event_name
+          - name: currency_code
+          - name: cart_value
+          - name: market
+      - name: raw_events_cart_broken
+        description: Legacy fixture table retained for manual scenario setup.
+      - name: raw_exchange_rates
