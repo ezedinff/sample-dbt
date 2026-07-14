@@ -7,7 +7,7 @@ SELECT
     cart_id,
     user_id,
     event_timestamp,
-    event_type,
+    event_name,
     currency_code,
     cart_value,
     market
