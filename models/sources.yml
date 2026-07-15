@@ -22,3 +22,30 @@ sources:
       - name: raw_events_cart_broken
         description: Legacy fixture table retained for manual scenario setup.
       - name: raw_exchange_rates
+      - name: orders
+        description: Shared sandbox order source used by Lighthouse scenario-pack tests.
+        columns:
+          - name: scenario_id
+          - name: record_source
+          - name: ingest_batch_id
+          - name: order_id
+          - name: customer_id
+          - name: vin
+          - name: market
+          - name: order_status
+          - name: order_amount
+          - name: source_updated_at
+          - name: loaded_at
+      - name: vehicle
+        description: Shared sandbox vehicle source used by Lighthouse scenario-pack tests.
+        columns:
+          - name: scenario_id
+          - name: record_source
+          - name: ingest_batch_id
+          - name: vin
+          - name: vehicle_id
+          - name: make
+          - name: model
+          - name: market
+          - name: source_updated_at
+          - name: loaded_at

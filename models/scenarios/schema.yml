@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: stg_orders_freshness
+    description: Freshness scenario staging model for raw order feed timing.
+    config:
+      tags: ["scenario:freshness"]
+    columns:
+      - name: scenario_id
+        tests:
+          - not_null
+      - name: order_id
+        tests:
+          - not_null
+      - name: loaded_at
+        tests:
+          - not_null
+  - name: int_order_freshness
+    description: Aggregates latest order timestamps by scenario and market.
+    config:
+      tags: ["scenario:freshness"]
+  - name: mart_order_freshness_alerts
+    description: Flags scenarios where latest usable order data is older than 24 hours.
+    config:
+      tags: ["scenario:freshness"]
+
+  - name: stg_orders_completeness
+    description: Completeness scenario order staging.
+    config:
+      tags: ["scenario:completeness"]
+  - name: stg_vehicle_completeness
+    description: Completeness scenario vehicle staging.
+    config:
+      tags: ["scenario:completeness"]
+  - name: int_order_vehicle_coverage
+    description: Left-join coverage model that preserves missing order VINs for diagnosis.
+    config:
+      tags: ["scenario:completeness"]
+  - name: mart_missing_vehicle_vins
+    description: Mart listing recent order VINs not present in the vehicle source.
+    config:
+      tags: ["scenario:completeness"]
+
+  - name: stg_orders_uniqueness
+    description: Uniqueness scenario order staging.
+    config:
+      tags: ["scenario:uniqueness"]
+  - name: stg_vehicle_uniqueness
+    description: Uniqueness scenario vehicle staging.
+    config:
+      tags: ["scenario:uniqueness"]
+  - name: int_orders_vehicle_enriched
+    description: Enriched order/vehicle join used to separate raw duplicates from join explosion.
+    config:
+      tags: ["scenario:uniqueness"]
+  - name: mart_duplicate_unique_keys
+    description: Mart reporting duplicate unique keys by scenario and duplicate family.
+    config:
+      tags: ["scenario:uniqueness"]

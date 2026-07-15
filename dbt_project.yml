@@ -7,7 +7,7 @@ profile: lighthouse_dbt_demo
 model-paths: ["models"]
 test-paths: ["tests"]
 macro-paths: ["macros"]
-seed-paths: ["seeds"]
+seed-paths: ["seeds/dbt"]
 
 models:
   lighthouse_dbt_demo:
@@ -20,3 +20,17 @@ models:
     marts:
       +materialized: table
       +schema: analytics
+    scenarios:
+      +tags: ["lighthouse_scenario_pack"]
+      freshness:
+        +materialized: view
+        +schema: scenario_freshness
+        +tags: ["scenario:freshness"]
+      completeness:
+        +materialized: view
+        +schema: scenario_completeness
+        +tags: ["scenario:completeness"]
+      uniqueness:
+        +materialized: view
+        +schema: scenario_uniqueness
+        +tags: ["scenario:uniqueness"]

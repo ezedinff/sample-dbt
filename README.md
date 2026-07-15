@@ -49,3 +49,14 @@ Use this repository as a client workspace, not as part of the Lighthouse service
 - staging fix target is `models/staging/stg_cart_events.sql`
 - metric endpoint is `models/marts/mart_abandoned_cart_rate.sql`
 - generated manifests can be recreated locally with `dbt parse`
+
+## Multi-Scenario Sandbox Pack
+
+The repo also contains a Lighthouse scenario pack under `models/scenarios/`,
+`seeds/scenarios/`, `tests/scenarios/`, `docs/scenarios/`, and `sql/bootstrap/`.
+It broadens validation beyond the cart rename path with freshness,
+completeness, and uniqueness fixtures.
+
+The scenario CSV files are Snowflake-loadable fixtures for a dedicated sandbox
+schema. They are intentionally not configured as always-on dbt seeds because the
+fixture folders reuse natural names like `orders.csv` and `vehicle.csv`.

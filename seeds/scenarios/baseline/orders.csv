@@ -1,0 +1,6 @@
+scenario_id,record_source,ingest_batch_id,order_id,customer_id,vin,market,order_status,order_amount,source_updated_at,loaded_at
+baseline,orders_api,batch_baseline_001,BASE-001,CUST-001,VIN-BASE-001,SE,created,42000,2026-07-14 09:00:00,2026-07-14 09:10:00
+baseline,orders_api,batch_baseline_001,BASE-002,CUST-002,VIN-BASE-002,SE,created,38000,2026-07-14 09:05:00,2026-07-14 09:12:00
+baseline,orders_api,batch_baseline_001,BASE-003,CUST-003,VIN-BASE-003,NO,created,51000,2026-07-14 09:15:00,2026-07-14 09:20:00
+baseline,orders_api,batch_baseline_001,BASE-004,CUST-004,VIN-BASE-004,DK,created,45000,2026-07-14 09:20:00,2026-07-14 09:25:00
+baseline,orders_api,batch_baseline_001,BASE-005,CUST-005,VIN-BASE-005,SE,created,47000,2026-07-14 09:30:00,2026-07-14 09:35:00

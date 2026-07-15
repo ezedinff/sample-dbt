@@ -1,0 +1,5 @@
+scenario_id,record_source,ingest_batch_id,vin,vehicle_id,make,model,market,source_updated_at,loaded_at
+uniqueness_join_explosion,vehicle_api,batch_join_veh_001,VIN-J001,VEH-J001-A,Volvo,EX30,SE,2026-07-14 13:30:00,2026-07-14 13:35:00
+uniqueness_join_explosion,vehicle_api,batch_join_veh_001,VIN-J001,VEH-J001-B,Volvo,EX30,SE,2026-07-14 13:31:00,2026-07-14 13:36:00
+uniqueness_join_explosion,vehicle_api,batch_join_veh_001,VIN-J002,VEH-J002,Polestar,2,SE,2026-07-14 13:32:00,2026-07-14 13:37:00
+uniqueness_join_explosion,vehicle_api,batch_join_veh_001,VIN-J003,VEH-J003,Volvo,XC40,NO,2026-07-14 13:33:00,2026-07-14 13:38:00

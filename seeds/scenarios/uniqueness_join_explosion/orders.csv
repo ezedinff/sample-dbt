@@ -1,0 +1,4 @@
+scenario_id,record_source,ingest_batch_id,order_id,customer_id,vin,market,order_status,order_amount,source_updated_at,loaded_at
+uniqueness_join_explosion,orders_api,batch_join_001,JOIN-001,CUST-J001,VIN-J001,SE,created,44000,2026-07-14 14:00:00,2026-07-14 14:05:00
+uniqueness_join_explosion,orders_api,batch_join_001,JOIN-002,CUST-J002,VIN-J002,SE,created,43000,2026-07-14 14:01:00,2026-07-14 14:06:00
+uniqueness_join_explosion,orders_api,batch_join_001,JOIN-003,CUST-J003,VIN-J003,NO,created,48000,2026-07-14 14:02:00,2026-07-14 14:07:00
