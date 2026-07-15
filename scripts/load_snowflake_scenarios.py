@@ -15,6 +15,7 @@ VERIFY_SQL = ROOT / "sql" / "bootstrap" / "verify_scenario_load.sql"
 SCENARIOS = (
     "baseline",
     "freshness_stale_orders",
+    "freshness_repo_local_regression",
     "completeness_missing_100_vins",
     "uniqueness_source_duplicates",
     "uniqueness_join_explosion",

@@ -32,6 +32,26 @@ WHERE scenario_id = 'freshness_stale_orders'
 UNION ALL
 
 SELECT
+  'freshness_repo_local_raw_loaded_at_fresh' AS check_name,
+  COUNT(*) AS observed_value,
+  3 AS expected_value,
+  IFF(MAX(loaded_at) >= TO_TIMESTAMP_NTZ('2026-07-14 00:00:00'), 'pass', 'fail') AS status
+FROM RAW.ORDERS
+WHERE scenario_id = 'freshness_repo_local_regression'
+
+UNION ALL
+
+SELECT
+  'freshness_repo_local_source_updated_at_stale' AS check_name,
+  COUNT(*) AS observed_value,
+  3 AS expected_value,
+  IFF(MAX(source_updated_at) < TO_TIMESTAMP_NTZ('2026-07-14 00:00:00'), 'pass', 'fail') AS status
+FROM RAW.ORDERS
+WHERE scenario_id = 'freshness_repo_local_regression'
+
+UNION ALL
+
+SELECT
   'baseline_latest_loaded_at_on_expected_day' AS check_name,
   COUNT(*) AS observed_value,
   5 AS expected_value,

@@ -5,6 +5,7 @@ User issue example: `Data not refreshed in last 24 hours from order.`
 Fixture:
 
 - `seeds/scenarios/freshness_stale_orders/orders.csv`
+- `seeds/scenarios/freshness_repo_local_regression/orders.csv`
 
 Models:
 
@@ -18,10 +19,15 @@ Test:
 
 Expected Lighthouse behavior:
 
-- Verify: confirm the latest usable order `loaded_at` is older than 24 hours.
-- Trace: identify whether staleness is already present in raw ingestion, staging, or mart logic.
-- Generate-fix: produce diagnosis and escalation when the stale point is upstream ingestion.
-- Apply-fix: skip when there is no bounded repo-local remediation.
-- Publish: skip when no bounded edit was applied.
+- Upstream safe-stop prompt: `raw orders freshness is stale upstream`.
+- Repo-local remediation prompt: `Data not refreshed in last 24 hours from order.`
+- Verify: confirm the stale freshness symptom from warehouse-backed evidence.
+- Trace: distinguish raw ingestion staleness from the repo-local timestamp-column regression.
+- Generate-fix: create a bounded single-file plan only for `freshness_repo_local_regression`.
+- Apply-fix: replace the wrong `source_updated_at` identifier with `loaded_at` in `int_order_freshness`.
+- Publish: open a human-reviewed PR only after the bounded edit is applied.
 
-Expected outcome: diagnosis only.
+Expected outcomes:
+
+- `freshness_stale_orders`: diagnosis only.
+- `freshness_repo_local_regression`: bounded fix plan, bounded edit, human-reviewed PR.

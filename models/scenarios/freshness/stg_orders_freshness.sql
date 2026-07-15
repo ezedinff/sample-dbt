@@ -11,4 +11,8 @@ SELECT
     source_updated_at,
     loaded_at
 FROM {{ source('raw', 'orders') }}
-WHERE scenario_id IN ('baseline', 'freshness_stale_orders')
+WHERE scenario_id IN (
+    'baseline',
+    'freshness_stale_orders',
+    'freshness_repo_local_regression'
+)

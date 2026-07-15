@@ -2,8 +2,12 @@ SELECT
     scenario_id,
     market,
     COUNT(*) AS order_count,
-    MAX(source_updated_at) AS latest_source_updated_at,
+    CAST(NULL AS TIMESTAMP_NTZ) AS latest_source_updated_at,
     MAX(loaded_at) AS latest_loaded_at
-FROM {{ source('raw', 'orders') }}
-WHERE scenario_id IN ('baseline', 'freshness_stale_orders')
+FROM {{ ref('stg_orders_freshness') }}
+WHERE scenario_id IN (
+    'baseline',
+    'freshness_stale_orders',
+    'freshness_repo_local_regression'
+)
 GROUP BY 1, 2
