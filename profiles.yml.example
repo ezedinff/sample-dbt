@@ -1,0 +1,23 @@
+# profiles.yml.example
+#
+# Copy to ~/.dbt/profiles.yml (or set DBT_PROFILES_DIR) for local dbt against LocalStack.
+
+sample_dbt:
+  target: localstack
+  outputs:
+    localstack:
+      type: snowflake
+      account: localstack
+      user: test
+      password: test
+      role: ACCOUNTADMIN
+      database: LIGHTHOUSE_DEV
+      warehouse: LIGHTHOUSE_DEV_WH
+      schema: DBT_DEV
+      threads: 4
+      client_session_keep_alive: False
+      # LocalStack:
+      # host: snowflake.localhost.localstack.cloud
+      # port: 443
+      # protocol: https
+      insecure_mode: true

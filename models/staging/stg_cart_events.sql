@@ -1,8 +1,12 @@
-WITH source AS (
-    SELECT * FROM {{ source('raw', 'raw_events_cart') }}
+-- INTENTIONAL BREAK (cart_rename_broken):
+-- Upstream source column is event_name. This staging model still selects event_type.
+-- Expected bounded fix: replace event_type -> event_name.
+
+with source as (
+    select * from {{ source('raw', 'RAW_EVENTS_CART') }}
 )
 
-SELECT
+select
     session_id,
     cart_id,
     user_id,
@@ -11,4 +15,4 @@ SELECT
     currency_code,
     cart_value,
     market
-FROM source
+from source

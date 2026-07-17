@@ -1,6 +1,0 @@
-scenario_id,record_source,ingest_batch_id,vin,vehicle_id,make,model,market,source_updated_at,loaded_at
-baseline,vehicle_api,batch_baseline_veh_001,VIN-BASE-001,VEH-BASE-001,Volvo,EX30,SE,2026-07-14 08:30:00,2026-07-14 08:35:00
-baseline,vehicle_api,batch_baseline_veh_001,VIN-BASE-002,VEH-BASE-002,Polestar,2,SE,2026-07-14 08:35:00,2026-07-14 08:40:00
-baseline,vehicle_api,batch_baseline_veh_001,VIN-BASE-003,VEH-BASE-003,Volvo,XC40,NO,2026-07-14 08:40:00,2026-07-14 08:45:00
-baseline,vehicle_api,batch_baseline_veh_001,VIN-BASE-004,VEH-BASE-004,Tesla,Model Y,DK,2026-07-14 08:45:00,2026-07-14 08:50:00
-baseline,vehicle_api,batch_baseline_veh_001,VIN-BASE-005,VEH-BASE-005,Volvo,EX90,SE,2026-07-14 08:50:00,2026-07-14 08:55:00

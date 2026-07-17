@@ -1,4 +1,0 @@
-scenario_id,record_source,ingest_batch_id,order_id,customer_id,vin,market,order_status,order_amount,source_updated_at,loaded_at
-freshness_stale_orders,orders_api,batch_stale_001,STALE-001,CUST-ST-001,VIN-ST-001,SE,created,39500,2026-07-12 07:00:00,2026-07-12 07:15:00
-freshness_stale_orders,orders_api,batch_stale_001,STALE-002,CUST-ST-002,VIN-ST-002,SE,created,41500,2026-07-12 07:10:00,2026-07-12 07:20:00
-freshness_stale_orders,orders_api,batch_stale_001,STALE-003,CUST-ST-003,VIN-ST-003,NO,created,50500,2026-07-12 07:20:00,2026-07-12 07:30:00

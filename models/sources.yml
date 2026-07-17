@@ -2,14 +2,17 @@ version: 2
 
 sources:
   - name: raw
-    schema: raw
+    description: >
+      RAW schema in LIGHTHOUSE_DEV. Seeded by
+      tenant-context/example/scripts/load_scenarios.py.
+    schema: RAW
+    database: LIGHTHOUSE_DEV
     tables:
-      - name: raw_events_cart
+      - name: RAW_EVENTS_CART
         description: >
-          Current raw cart-event source contract. This upstream source now exposes
-          event_name for the event classification field; the staging model is
-          intentionally still reading the old event_type field for Lighthouse
-          remediation testing.
+          Cart event stream. Current upstream contract uses event_name
+          (not event_type). Staging intentionally still reads event_type
+          for the cart_rename_broken remediation case.
         columns:
           - name: session_id
           - name: cart_id
@@ -19,33 +22,40 @@ sources:
           - name: currency_code
           - name: cart_value
           - name: market
-      - name: raw_events_cart_broken
-        description: Legacy fixture table retained for manual scenario setup.
-      - name: raw_exchange_rates
-      - name: orders
-        description: Shared sandbox order source used by Lighthouse scenario-pack tests.
+
+      - name: RAW_ORDERS
+        description: Order header rows (freshness, join, completeness, cast scenarios).
         columns:
-          - name: scenario_id
-          - name: record_source
-          - name: ingest_batch_id
           - name: order_id
-          - name: customer_id
           - name: vin
           - name: market
-          - name: order_status
-          - name: order_amount
-          - name: source_updated_at
+          - name: ordered_at
+          - name: order_value
           - name: loaded_at
-      - name: vehicle
-        description: Shared sandbox vehicle source used by Lighthouse scenario-pack tests.
+          - name: currency_code
+          - name: amount
+          - name: order_date
+
+      - name: RAW_VEHICLE
+        description: Vehicle dimension; may contain duplicate vins (join_explosion).
         columns:
-          - name: scenario_id
-          - name: record_source
-          - name: ingest_batch_id
-          - name: vin
           - name: vehicle_id
-          - name: make
-          - name: model
+          - name: vin
+          - name: model_name
+          - name: updated_at
+
+      - name: RAW_EXCHANGE_RATES
+        description: FX rates by currency and valid_on date (fx_rate_gap).
+        columns:
+          - name: currency_code
+          - name: rate_to_usd
+          - name: valid_on
+
+      - name: RAW_ORDER_LINES
+        description: Order line items for grain tests (wrong_grain_mart).
+        columns:
+          - name: order_id
+          - name: line_number
+          - name: line_value
           - name: market
-          - name: source_updated_at
-          - name: loaded_at
+          - name: order_date

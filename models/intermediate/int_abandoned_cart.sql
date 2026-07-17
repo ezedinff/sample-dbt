@@ -1,29 +1,33 @@
-WITH events AS (
-    SELECT * FROM {{ ref('stg_cart_events') }}
+-- Downstream cart logic expects event_name after staging is repaired.
+-- Until cart_rename_broken is fixed, dbt run may fail on staging; warehouse
+-- investigation can still query RAW.RAW_EVENTS_CART and these compiled models.
+
+with events as (
+    select * from {{ ref('stg_cart_events') }}
 ),
-created AS (
-    SELECT
+created as (
+    select
         cart_id,
         session_id,
         user_id,
         market,
         currency_code,
         cart_value,
-        MIN(event_timestamp) AS cart_created_at
-    FROM events
-    WHERE event_name = 'cart_created'
-    GROUP BY 1, 2, 3, 4, 5, 6
+        min(event_timestamp) as cart_created_at
+    from events
+    where event_name = 'cart_created'
+    group by 1, 2, 3, 4, 5, 6
 ),
-abandoned AS (
-    SELECT
+abandoned as (
+    select
         cart_id,
-        MIN(event_timestamp) AS cart_abandoned_at
-    FROM events
-    WHERE event_name = 'cart_abandoned'
-    GROUP BY 1
+        min(event_timestamp) as cart_abandoned_at
+    from events
+    where event_name = 'cart_abandoned'
+    group by 1
 )
 
-SELECT
+select
     created.cart_id,
     created.session_id,
     created.user_id,
@@ -32,6 +36,6 @@ SELECT
     created.cart_value,
     created.cart_created_at,
     abandoned.cart_abandoned_at,
-    abandoned.cart_abandoned_at IS NOT NULL AS is_abandoned
-FROM created
-LEFT JOIN abandoned ON created.cart_id = abandoned.cart_id
+    abandoned.cart_abandoned_at is not null as is_abandoned
+from created
+left join abandoned on created.cart_id = abandoned.cart_id

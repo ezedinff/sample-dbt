@@ -1,62 +1,41 @@
-# Sample dbt Client Repo for Lighthouse
+# sample-dbt
 
-This repository is a small, fake client-owned dbt project used to test Lighthouse against an external codebase. It is intentionally separate from the Lighthouse service repository so local demos and future GitHub PR publication tests can operate on a realistic target repo.
+Client-owned dbt project used with Lighthouse investigation demos.
 
-## Lineage Overview
+Lighthouse connects via GitHub (`GITHUB_REPO_OWNER` / `GITHUB_REPO_NAME`, default `ezedinff/sample-dbt` on `main`). The agent reads models only through GitHub MCP — not from any Lighthouse checkout.
 
-The primary metric path is:
+## Layout
 
 ```text
-raw.raw_events_cart
-  -> stg_cart_events
-  -> int_abandoned_cart
-  -> mart_abandoned_cart_rate
+models/
+  sources.yml                 # RAW.* tables (paired with warehouse loaders)
+  staging/                    # thin source reads
+  intermediate/               # joins / cart logic (some intentional breaks)
+  marts/                      # investigation endpoints
+docs/SCENARIOS.md             # scenario → model → warehouse map
 ```
 
-`mart_abandoned_cart_rate` is the metric endpoint Lighthouse investigates when the abandoned cart rate drops.
+## Intentional code breaks (for code_fix / PR)
 
-## Intentional Broken Scenario
+| Scenario | Broken file | Bug |
+|----------|-------------|-----|
+| `cart_rename_broken` | `staging/stg_cart_events.sql` | selects `event_type` vs source `event_name` |
+| `join_explosion` | `intermediate/int_orders_enriched.sql` | join vehicle without dedupe |
+| `cast_join_miss` | `intermediate/int_orders_vehicle_cast.sql` | vin equality without LPAD |
+| `filter_overreach` | `marts/mart_cart_created.sql` | `where market = 'DE'` |
+| `wrong_grain_mart` | `marts/mart_order_revenue.sql` | line grain as order revenue |
 
-This repo contains one intentional MVP breakage:
+Healthy / explanation-only paths (warehouse symptom, code may be fine):
+`cart_se_drop`, `freshness_stale`, `source_duplicates`, `null_spike`, `fx_rate_gap`, `completeness_gap`, `timezone_boundary`.
 
-- Scenario: `source_to_staging_field_rename`
-- Upstream source contract: `raw.raw_events_cart` now exposes `event_name`
-- Outdated staging model: `models/staging/stg_cart_events.sql` still selects `event_type`
-- Downstream models and schema tests expect the repaired `event_name` output
-- Expected Lighthouse target file: `models/staging/stg_cart_events.sql`
-- Expected deterministic edit: replace the stale `event_type` identifier with `event_name`
+Warehouse fixtures and replay prompts live in the Lighthouse repo under `tenant-context/example/` — clone that repo separately to load Snowflake data and run Telegram replays.
 
-The mismatch is documented in `models/sources.yml` and kept to a single identifier reference in the staging model so Lighthouse can trace, plan, and apply a bounded fix.
-
-## Local dbt Usage
-
-Install dbt for your warehouse adapter, then run:
+## Local dbt (optional)
 
 ```bash
-dbt deps
+cp profiles.yml.example profiles.yml   # point at LIGHTHOUSE_DEV
 dbt parse
 dbt compile
 ```
 
-`dbt parse` writes `target/manifest.json`, which Lighthouse can use for manifest-based lineage tracing. Generated artifacts under `target/`, `logs/`, and `dbt_packages/` are intentionally ignored.
-
-## Notes for Lighthouse Tests
-
-Use this repository as a client workspace, not as part of the Lighthouse service tree. Stable assumptions for integration tests:
-
-- dbt project root is the repository root
-- model root is `models/`
-- staging fix target is `models/staging/stg_cart_events.sql`
-- metric endpoint is `models/marts/mart_abandoned_cart_rate.sql`
-- generated manifests can be recreated locally with `dbt parse`
-
-## Multi-Scenario Sandbox Pack
-
-The repo also contains a Lighthouse scenario pack under `models/scenarios/`,
-`seeds/scenarios/`, `tests/scenarios/`, `docs/scenarios/`, and `sql/bootstrap/`.
-It broadens validation beyond the cart rename path with freshness,
-completeness, and uniqueness fixtures.
-
-The scenario CSV files are Snowflake-loadable fixtures for a dedicated sandbox
-schema. They are intentionally not configured as always-on dbt seeds because the
-fixture folders reuse natural names like `orders.csv` and `vehicle.csv`.
+Generated `target/`, `logs/`, `dbt_packages/` are gitignored.
