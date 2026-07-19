@@ -1,7 +1,3 @@
--- Downstream cart logic expects event_name after staging is repaired.
--- Until cart_rename_broken is fixed, dbt run may fail on staging; warehouse
--- investigation can still query RAW.RAW_EVENTS_CART and these compiled models.
-
 with events as (
     select * from {{ ref('stg_cart_events') }}
 ),

@@ -1,7 +1,3 @@
--- INTENTIONAL BREAK (cast_join_miss):
--- Equality join without normalizing VIN width (orders may store 123, vehicles 000123).
--- Expected fix: lpad / trim both sides before join.
-
 with orders as (
     select * from {{ ref('stg_orders') }}
 ),

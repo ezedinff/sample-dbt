@@ -2,17 +2,12 @@ version: 2
 
 sources:
   - name: raw
-    description: >
-      RAW schema in LIGHTHOUSE_DEV. Seeded by
-      tenant-context/example/scripts/load_scenarios.py.
+    description: RAW schema in LIGHTHOUSE_DEV.
     schema: RAW
     database: LIGHTHOUSE_DEV
     tables:
       - name: RAW_EVENTS_CART
-        description: >
-          Cart event stream. Current upstream contract uses event_name
-          (not event_type). Staging intentionally still reads event_type
-          for the cart_rename_broken remediation case.
+        description: Cart event stream.
         columns:
           - name: session_id
           - name: cart_id
@@ -24,7 +19,7 @@ sources:
           - name: market
 
       - name: RAW_ORDERS
-        description: Order header rows (freshness, join, completeness, cast scenarios).
+        description: Order header rows.
         columns:
           - name: order_id
           - name: vin
@@ -37,7 +32,7 @@ sources:
           - name: order_date
 
       - name: RAW_VEHICLE
-        description: Vehicle dimension; may contain duplicate vins (join_explosion).
+        description: Vehicle dimension.
         columns:
           - name: vehicle_id
           - name: vin
@@ -45,14 +40,14 @@ sources:
           - name: updated_at
 
       - name: RAW_EXCHANGE_RATES
-        description: FX rates by currency and valid_on date (fx_rate_gap).
+        description: FX rates by currency and valid_on date.
         columns:
           - name: currency_code
           - name: rate_to_usd
           - name: valid_on
 
       - name: RAW_ORDER_LINES
-        description: Order line items for grain tests (wrong_grain_mart).
+        description: Order line items.
         columns:
           - name: order_id
           - name: line_number

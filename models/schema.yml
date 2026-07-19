@@ -2,20 +2,17 @@ version: 2
 
 models:
   - name: stg_cart_events
-    description: >
-      INTENTIONAL BREAK for cart_rename_broken — selects event_type while
-      source documents event_name. Bounded fix target.
+    description: Staging for RAW_EVENTS_CART.
     columns:
       - name: cart_id
       - name: event_type
-        description: Stale identifier; should be event_name after fix.
       - name: market
 
   - name: stg_orders
-    description: Staging for RAW_ORDERS (shared order header schema).
+    description: Staging for RAW_ORDERS.
 
   - name: stg_vehicle
-    description: Staging for RAW_VEHICLE (may contain duplicate vins).
+    description: Staging for RAW_VEHICLE.
 
   - name: stg_exchange_rates
     description: Staging for FX rates.
@@ -30,35 +27,31 @@ models:
       - name: is_abandoned
 
   - name: int_orders_enriched
-    description: >
-      INTENTIONAL BREAK for join_explosion — joins vehicle without dedupe.
+    description: Orders enriched with vehicle attributes.
 
   - name: int_orders_vehicle_cast
-    description: >
-      INTENTIONAL BREAK for cast_join_miss — vin equality without LPAD.
+    description: Orders joined to vehicles on VIN.
 
   - name: mart_abandoned_cart_rate
-    description: Abandoned cart rate by market (cart_se_drop endpoint).
+    description: Abandoned cart rate by market.
 
   - name: mart_orders_enriched
-    description: Publishes join-explosion enrichment.
+    description: Published orders enriched with vehicle attributes.
 
   - name: mart_orders_enriched_cast
-    description: Publishes cast-join enrichment miss.
+    description: Published orders-to-vehicle join output.
 
   - name: mart_order_freshness
     description: Freshness snapshot from loaded_at.
 
   - name: mart_order_vehicle_match
-    description: Completeness counts for unmatched VINs.
+    description: Counts of orders matched and unmatched to vehicles.
 
   - name: mart_revenue_usd
-    description: Order amounts converted via FX (fx_rate_gap).
+    description: Order amounts converted via FX rates.
 
   - name: mart_cart_created
-    description: >
-      INTENTIONAL BREAK for filter_overreach — WHERE market = 'DE'.
+    description: Cart created counts by market.
 
   - name: mart_order_revenue
-    description: >
-      INTENTIONAL BREAK for wrong_grain_mart — line grain as order_revenue.
+    description: Order revenue mart.
